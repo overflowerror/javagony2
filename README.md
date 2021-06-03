@@ -1,4 +1,4 @@
-# javagony2
+# Javagony2
 Javagony With A Twist
 
 ## What is Javagony
@@ -10,6 +10,10 @@ Javagony With A Twist
 (I have no idea if someone else already did this. Nevertheless: Let me coin the term right now.)
 
 Javagony2 is an "extension" of Javagony. In addition to all the features Javagony is missing, in Javagony2 there is also no `try-catch` and no `import`.
+
+## Is Javagony2 Turing-complete?
+
+Yes. See `/turing` for a basic Turing machine simulation. The file `StateMachine.java` contains the program (it checks for even palindomes).
 
 ## Why?
 
