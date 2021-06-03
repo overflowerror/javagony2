@@ -1,5 +1,5 @@
 public class Number {
-	private class NumberWrapper {
+	private static class NumberWrapper {
 		Number n;
 	}
 
@@ -25,6 +25,11 @@ public class Number {
 		@Override
 		public void executeIfEquals(Number n, Action a) {
 			n.executeIfZero(a);
+		}
+		
+		@Override
+		public void executeIfNotEquals(Number n, Action a) {
+			n.executeIfNotZero(a);
 		}
 	}
 	
@@ -88,6 +93,17 @@ public class Number {
 		}
 		
 		@Override
+		
+		public void executeIfNotEquals(Number n, Action a) {
+			n.executeIfNegative(() -> {
+				positive.executeIfNotEquals(((NegativeNumber) n).positive, a);
+			});
+			n.executeIfNotNegative(() -> {
+				a.execute();
+			});
+		}
+		
+		@Override
 		public void forEach(Action a) {
 			positive.forEach(a);
 		}
@@ -145,6 +161,66 @@ public class Number {
 		return w.n;
 	}
 	
+	public static Number max(Number n1, Number n2) {
+		NumberWrapper w = new NumberWrapper();
+	
+		n1.executeIfNegative(() -> {
+			n2.executeIfNegative(() -> {
+				w.n = Number.max(((NegativeNumber) n2).positive, ((NegativeNumber) n1).positive);
+			});
+			n2.executeIfNotNegative(() -> {
+				w.n = n2;
+			});
+		});
+		n1.executeIfNotNegative(() -> {
+			n2.executeIfNegative(() -> {
+				w.n = n1;
+			});
+			n2.executeIfNotNegative(() -> {
+				n1.executeIfZero(() -> {
+					n2.executeIfZero(() -> {
+						w.n = zero();
+					});
+					n2.executeIfNotZero(() -> {
+						w.n = n2;
+					});
+				});
+				n1.executeIfNotZero(() -> {
+					n2.executeIfZero(() -> {
+						w.n = n1;
+					});
+					n2.executeIfNotZero(() -> {
+						Number tmp = Number.max(n1.pre, n2.pre);
+						tmp.executeIfEquals(n1.pre, () -> {
+							w.n = n1;
+						});
+						tmp.executeIfEquals(n2.pre, () -> {
+							w.n = n2;
+						});
+					});
+				});
+			});
+		});
+		
+		return w.n;
+	}
+	
+	public static Number min(Number n1, Number n2) {
+		Number max = max(n1, n2);
+		
+		NumberWrapper w = new NumberWrapper();
+		
+		n1.executeIfEquals(max, () -> {
+			w.n = n2;
+		});
+		
+		n2.executeIfEquals(max, () -> {
+			w.n = n1;
+		});
+		
+		return w.n;
+	}
+	
 	public void executeIfZero(Action action) {
 	}
 	
@@ -160,6 +236,14 @@ public class Number {
 		n.executeIfNotNegative(() -> {
 			n.executeIfNotZero(() -> {
 				pre.executeIfEquals(n.pre, a);
+			});
+		});
+	}
+	
+	public void executeIfNotEquals(Number n, Action a) {
+		n.executeIfNotNegative(() -> {
+			n.executeIfNotZero(() -> {
+				pre.executeIfNotEquals(n.pre, a);
 			});
 		});
 	}

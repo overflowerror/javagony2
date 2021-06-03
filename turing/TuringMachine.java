@@ -7,6 +7,7 @@ public class TuringMachine {
 	public TuringMachine() {
 		tape = new Tape();
 		sm = new StateMachine(() -> {
+			System.out.println(tape);
 			System.out.println("halted");
 			System.exit(0);
 		});
@@ -29,6 +30,8 @@ public class TuringMachine {
 		tape.set(n, '1');
 		n = n.succ();
 		tape.set(n, '0');
+		
+		System.out.println(tape);
 	}
 	
 	public void step() {
