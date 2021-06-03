@@ -3,7 +3,7 @@ Javagony With A Twist
 
 ## What is Javagony
 
-[Javagony]{https://esolangs.org/wiki/Javagony} is an esoteric programming language. It's basically Java without any conditional (`if`, `else`, `switch`), loop (`for`, `while`, `do while`) keywords or conditional expressions (`?:`).
+[Javagony](https://esolangs.org/wiki/Javagony) is an esoteric programming language. It's basically Java without any conditional (`if`, `else`, `switch`), loop (`for`, `while`, `do while`) keywords or conditional expressions (`?:`).
 
 ## What is Javagony2
 
